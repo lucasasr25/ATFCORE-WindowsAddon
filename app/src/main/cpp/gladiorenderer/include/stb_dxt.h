@@ -37,6 +37,7 @@
 //
 //   See end of file for license information.
 
+#include <string.h>
 #ifndef STB_INCLUDE_STB_DXT_H
 #define STB_INCLUDE_STB_DXT_H
 
