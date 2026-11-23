@@ -4,6 +4,9 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
+    <!-- Only apps signed with the same key (the ATFCORE player) may open games here. -->
+    <permission android:name="dev.openscene.permission.LAUNCH_WINDOWS_GAME" android:protectionLevel="signature" />
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -32,6 +35,17 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.winlator.ExternalLaunchActivity"
+            android:exported="true"
+            android:permission="dev.openscene.permission.LAUNCH_WINDOWS_GAME"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="dev.openscene.windows.action.LAUNCH" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 

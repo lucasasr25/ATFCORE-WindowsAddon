@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Winlator</string>
+    <string name="app_name">ATFCORE Windows</string>
     <string name="run">Run</string>
     <string name="edit">Edit</string>
     <string name="remove">Remove</string>
@@ -359,4 +359,7 @@
     <string name="fgs_notification_content_else">Winlator is running in the background</string>
     <string name="save_mem_on_run_from_steam">Save memory on run from Steam</string>
     <string name="present_mode">Present Mode</string>
+    <string name="atfcore_missing_executable">The game executable was not found.</string>
+    <string name="atfcore_setup_first">ATFCORE Windows is finishing its first setup. Open the game again when it is done.</string>
+    <string name="atfcore_container_failed">Could not create the Windows environment.</string>
 </resources>

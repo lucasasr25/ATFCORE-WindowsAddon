@@ -164,11 +164,11 @@ public abstract class TarCompressorUtils {
                 }
                 else {
                     if (entry.isSymbolicLink()) {
-                        FileUtils.symlink(entry.getLinkName(), file.getAbsolutePath());
+                        FileUtils.symlink(PackagePaths.rewrite(entry.getLinkName()), file.getAbsolutePath());
                     }
                     else {
                         try (BufferedOutputStream outStream = new BufferedOutputStream(new FileOutputStream(file), StreamUtils.BUFFER_SIZE)) {
-                            if (!StreamUtils.copy(tar, outStream)) return false;
+                            if (!PackagePaths.copy(tar, outStream)) return false;
                         }
                     }
                 }
@@ -215,7 +215,7 @@ public abstract class TarCompressorUtils {
 
                 if (match && !entry.isDirectory() && !entry.isSymbolicLink()) {
                     try (BufferedOutputStream outStream = new BufferedOutputStream(dataOutputStream, StreamUtils.BUFFER_SIZE)) {
-                        if (!StreamUtils.copy(tar, outStream)) return null;
+                        if (!PackagePaths.copy(tar, outStream)) return null;
                     }
                     return dataOutputStream.toByteArray();
                 }
