@@ -147,8 +147,18 @@ public class WindowManager extends XResourceManager {
     }
 
     public void setFocus(Window focusedWindow, FocusRevertTo focusRevertTo) {
+        Window previous = this.focusedWindow;
         this.focusedWindow = focusedWindow;
         this.focusRevertTo = focusRevertTo;
+        if (previous == focusedWindow) return;
+        // Clients learn about focus changes only through these events (Wine activates its
+        // window on FocusIn; without them games saw themselves in the background).
+        if (previous != null && previous != rootWindow)
+            previous.sendEvent(com.winlator.xserver.events.Event.FOCUS_CHANGE,
+                new com.winlator.xserver.events.FocusChange(false, previous, com.winlator.xserver.events.FocusChange.DETAIL_NONLINEAR));
+        if (focusedWindow != null && focusedWindow != rootWindow)
+            focusedWindow.sendEvent(com.winlator.xserver.events.Event.FOCUS_CHANGE,
+                new com.winlator.xserver.events.FocusChange(true, focusedWindow, com.winlator.xserver.events.FocusChange.DETAIL_NONLINEAR));
     }
 
     public FocusRevertTo getFocusRevertTo() {
