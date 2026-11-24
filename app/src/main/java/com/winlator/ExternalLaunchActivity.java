@@ -63,12 +63,34 @@ public class ExternalLaunchActivity extends Activity {
     }
 
     private void launch(Container container, String execPath) {
+        mapGameDrive(container, execPath);
         Intent intent = new Intent(this, XServerDisplayActivity.class);
         intent.putExtra("container_id", container.id);
         intent.putExtra("exec_path", execPath);
         startActivity(intent);
         setResult(RESULT_OK);
         finish();
+    }
+
+    // Wine sees only the container's drives: the game's folder (shared storage, e.g. the
+    // player's mirror under Android/media) gets a drive letter of its own when no drive holds it.
+    private static void mapGameDrive(Container container, String execPath) {
+        for (com.winlator.container.Drive drive : container.drivesIterator())
+            if (execPath.startsWith(drive.path + "/")) return;
+        // The player mirrors every game under one folder: one drive serves them all.
+        final String mirror = "/Android/media/dev.openscene.player/windows";
+        int at = execPath.indexOf(mirror + "/");
+        String folder = at >= 0 ? execPath.substring(0, at + mirror.length()) : new File(execPath).getParent();
+        if (folder == null) return;
+        String drives = container.getDrives();
+        java.util.Set<String> used = new java.util.HashSet<>();
+        for (com.winlator.container.Drive drive : container.drivesIterator()) used.add(drive.letter.toUpperCase());
+        for (char letter = 'G'; letter <= 'Y'; letter++) {
+            if (used.contains(String.valueOf(letter))) continue;
+            container.setDrives(drives + letter + ":" + folder);
+            container.saveData();
+            return;
+        }
     }
 
     private void fail(String message) {
