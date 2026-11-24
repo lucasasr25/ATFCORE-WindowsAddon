@@ -67,6 +67,8 @@ public class ExternalLaunchActivity extends Activity {
         Intent intent = new Intent(this, XServerDisplayActivity.class);
         intent.putExtra("container_id", container.id);
         intent.putExtra("exec_path", execPath);
+        // Unity players: a frameless window (the game keeps its own windowed/fullscreen setting).
+        if (new File(new File(execPath).getParentFile(), "UnityPlayer.dll").isFile()) intent.putExtra("exec_args", "-popupwindow");
         startActivity(intent);
         setResult(RESULT_OK);
         finish();

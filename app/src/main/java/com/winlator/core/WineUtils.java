@@ -103,6 +103,8 @@ public abstract class WineUtils {
             registryEditor.setStringValue("Software\\Winlator\\WFM\\ContextMenu\\7-Zip", "Extract to Folder", "Z:\\opt\\apps\\7-Zip\\7zG.exe x \"%FILE%\" -r -o\"%DIR%\\%BASENAME%\" -y");
             registryEditor.setStringValue("Software\\Wine\\AddonsURL", null, "https://raw.githubusercontent.com/brunodev85/winlator/main/wine_addons/");
             registryEditor.setStringValue("Software\\Wine\\Drivers", "Graphics", "x11");
+            // ATFCORE: games fill the screen without Wine-drawn title bars and borders.
+            registryEditor.setStringValue("Software\\Wine\\X11 Driver", "Decorated", "N");
         }
     }
 

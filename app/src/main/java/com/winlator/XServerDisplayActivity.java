@@ -966,6 +966,8 @@ public class XServerDisplayActivity extends AppCompatActivity implements Navigat
             Intent intent = getIntent();
             if (intent.hasExtra("exec_path")) {
                 execPath = WineUtils.unixToDOSPath(intent.getStringExtra("exec_path"), container);
+                String extraArgs = intent.getStringExtra("exec_args");   // ATFCORE: arguments for the game
+                if (extraArgs != null && !extraArgs.isEmpty()) execArgs = " " + extraArgs;
 
                 if (execPath.endsWith(".lnk")) {
                     cmdArgs = "\""+execPath+"\"";
