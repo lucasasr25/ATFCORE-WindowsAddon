@@ -28,6 +28,7 @@ import java.util.ArrayList;
  */
 public class ExternalLaunchActivity extends Activity {
     public static final String EXTRA_EXEC_PATH = "exec_path";
+    public static final String EXTRA_SINGLE_THREAD = "unity_single_thread";
     public static final String EXTRA_TITLE = "title";
     public static final String EXTRA_ERROR = "error";
     private static final String DEFAULT_CONTAINER_NAME = "ATFCORE";
@@ -68,7 +69,10 @@ public class ExternalLaunchActivity extends Activity {
         intent.putExtra("container_id", container.id);
         intent.putExtra("exec_path", execPath);
         // Unity players: a frameless window (the game keeps its own windowed/fullscreen setting).
-        if (new File(new File(execPath).getParentFile(), "UnityPlayer.dll").isFile()) intent.putExtra("exec_args", "-popupwindow");
+        if (new File(new File(execPath).getParentFile(), "UnityPlayer.dll").isFile()) {
+            boolean singleThread = getIntent().getBooleanExtra(EXTRA_SINGLE_THREAD, false);
+            intent.putExtra("exec_args", singleThread ? "-popupwindow -force-gfx-direct" : "-popupwindow");
+        }
         startActivity(intent);
         setResult(RESULT_OK);
         finish();
